@@ -1,8 +1,9 @@
 from fastapi import APIRouter
 
 from .endpoints import auth
-from .endpoints import user
 from .endpoints import sign_up
+from .endpoints import reset_pwd
+from .endpoints import user
 
 
 api_router = APIRouter()
@@ -18,6 +19,12 @@ api_router.include_router(
     router=sign_up.router, 
     prefix="/sign-up",
     tags=['Sign-up']
+)
+
+api_router.include_router(
+    router=reset_pwd.router, 
+    prefix="/reset-pwd",
+    tags=['Reset password']
 )
 
 api_router.include_router(

@@ -12,3 +12,8 @@ class DefaultConfig:
     CLUSTER_USERNAME = os.environ.get("CLUSTER_USERNAME")
     CLUSTER_PASSWORD = os.environ.get("CLUSTER_PASSWORD")
     DATABASE_NAME = os.environ.get("DATABASE_NAME")
+
+    # Email
+    FROM_EMAIL = os.environ.get("FROM_EMAIL")
+    FROM_PWD = os.environ.get("FROM_PWD")
+    IMAP_SERVER = os.environ.get("IMAP_SERVER")

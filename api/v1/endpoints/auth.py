@@ -20,9 +20,7 @@ config = DefaultConfig()
 
 @router.post("/login", response_model=Token)
 async def login_for_access_token(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
-    
-    db = DataBase()
-    db.get_user
+
     user = authenticate_user(form_data.username, form_data.password)
 
     if not user:
