@@ -56,7 +56,7 @@ async def request_reset_password(request: Request):
     user_request_data = await request.json()
     user_db = db.get_user(user_request_data.get('username', None))
     
-    if(user_db is None) or user_db:
+    if(user_db is None):
         user_not_found_exception = HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found.",
@@ -67,7 +67,7 @@ async def request_reset_password(request: Request):
     validation_code = user_db.hashed_password[len(user_db.hashed_password)-6:]
 
     message = f'\
-        Aqui está seu código de validação <strong>{validation_code}</strong> para criar uma nova senha.\n\
+        Aqui está seu código de validação {validation_code} para criar uma nova senha.\n\
         Caso você não tenha solicita renovação de senha desconsirede este email.\n\n\
         Equipe FitWorks'
 
