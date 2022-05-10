@@ -56,18 +56,18 @@ async def request_reset_password(request: Request):
     user_request_data = await request.json()
     user_db = db.get_user(user_request_data.get('username', None))
     
-    if(user_db is None):
+    if(user_db is None) or user_db:
         user_not_found_exception = HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found.",
         )
-        return user_not_found_exception
+        raise user_not_found_exception
     
     # Send hash to user email
     validation_code = user_db.hashed_password[len(user_db.hashed_password)-6:]
 
     message = f'\
-        Aqui está seu código de validação {validation_code} para criar uma nova senha.\n\
+        Aqui está seu código de validação <strong>{validation_code}</strong> para criar uma nova senha.\n\
         Caso você não tenha solicita renovação de senha desconsirede este email.\n\n\
         Equipe FitWorks'
 
@@ -84,8 +84,8 @@ async def request_reset_password(request: Request):
 
 
 # Hash confirmation
-@router.post("/reset-confirmation")
-@router.post("/reset-confirmation/", include_in_schema=False)
+@router.post("/reset-confirmation", status_code=status.HTTP_200_OK)
+@router.post("/reset-confirmation/", status_code=status.HTTP_200_OK, include_in_schema=False)
 async def hash_confirmation(request: Request):
 
     db = DataBase()
